@@ -1,4 +1,5 @@
-﻿namespace System.Runtime.CompilerServices
+﻿#if !NETSTANDARD2_1_OR_GREATER && !NETCOREAPP1_1_OR_GREATER
+namespace System.Runtime.CompilerServices
 {
     sealed class AsyncMethodBuilderAttribute : Attribute
     {
@@ -11,3 +12,4 @@
         }
     }
 }
+#endif

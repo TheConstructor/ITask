@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -21,19 +22,17 @@ namespace MorseCode.ITask.CompilerServices
         ///     <c>readonly</c>, first <c>await</c> silently freezes everything.
         ///   </para>
         /// </remarks>
-        AsyncTaskMethodBuilder<TResult> builder;
+        private AsyncTaskMethodBuilder<TResult> builder;
 
         /// <summary>
         ///   Used by the compiler to generate the return value for the async method.
         /// </summary>
         public ITask<TResult> Task => builder.Task.AsITask();
 
-        TaskInterfaceAsyncMethodBuilder(AsyncTaskMethodBuilder<TResult> builder) : this()
+        private TaskInterfaceAsyncMethodBuilder(AsyncTaskMethodBuilder<TResult> builder) : this()
         {
             this.builder = builder;
         }
-
-
 
         /// <summary>
         ///   Part of async method builder contract: create a builder.
@@ -62,6 +61,8 @@ namespace MorseCode.ITask.CompilerServices
         ///   Part of async method builder contract: initialize and start running
         ///   the state machine.
         /// </summary>
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Start<TStateMachine>(ref TStateMachine stateMachine)
             where TStateMachine : IAsyncStateMachine
             => builder.Start(ref stateMachine);
@@ -81,6 +82,7 @@ namespace MorseCode.ITask.CompilerServices
         ///   Part of async method builder contract: called when an awaited operation
         ///   is pending completion to schedule a continuation.
         /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void AwaitUnsafeOnCompleted<TAwaiter, TStateMachine>(
             ref TAwaiter awaiter,
             ref TStateMachine stateMachine)

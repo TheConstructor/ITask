@@ -62,6 +62,9 @@ namespace MorseCode.ITask
             this.taskAwaiter.UnsafeOnCompleted(continuation);
         }
 
+#if NET6_0_OR_GREATER
+        [System.Diagnostics.StackTraceHidden]
+#endif
         void IAwaiter.GetResult()
         {
             this.taskAwaiter.GetResult();

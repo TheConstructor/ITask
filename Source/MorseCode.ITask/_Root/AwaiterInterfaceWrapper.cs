@@ -89,6 +89,9 @@ namespace MorseCode.ITask
         /// <exception cref="System.NullReferenceException">The awaiter was not properly initialized.</exception>
         /// <exception cref="System.Threading.Tasks.TaskCanceledException">The task was canceled.</exception>
         /// <exception cref="System.Exception">The task completed in a Faulted state.</exception>
+#if NET6_0_OR_GREATER
+        [System.Diagnostics.StackTraceHidden]
+#endif
         public void GetResult()
         {
             this.awaiter.GetResult();
